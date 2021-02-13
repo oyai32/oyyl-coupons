@@ -1,0 +1,195 @@
+{
+    "oyyl-coupons": {
+        "data": [
+            {
+                "_id": "3b020ca3600d495400aa905b23665b42",
+                "create_date": 1613119964790,
+                "desc": "仅限购买家具建材商品",
+                "is_del": false,
+                "need_count": 1,
+                "price": 20,
+                "type": 1,
+                "end_date": "2022-02-01",
+                "limit_num": 0
+            },
+            {
+                "_id": {
+                    "$oid": "602642bf002aec0001b8b8e7"
+                },
+                "create_date": 1613119964790,
+                "desc": "仅限购买家具建材商品",
+                "is_del": false,
+                "need_count": 0,
+                "price": 10,
+                "type": 1,
+                "end_date": "2022-01-01",
+                "limit_num": 0
+            },
+            {
+                "_id": {
+                    "$oid": "602642d9ef338d0001964d44"
+                },
+                "create_date": 1613119964790,
+                "desc": "仅限购买家具建材商品",
+                "is_del": false,
+                "need_count": 3,
+                "price": 50,
+                "type": 2,
+                "end_date": "2022-02-01",
+                "limit_num": 99
+            }
+        ],
+        "index": [
+            {
+                "IndexName": "coupons_openid_index_",
+                "MgoKeySchema": {
+                    "MgoIndexKeys": [
+                        {
+                            "Name": "_openid",
+                            "Direction": "1"
+                        }
+                    ],
+                    "MgoIsUnique": false
+                }
+            }
+        ],
+        "schema": {
+            "bsonType": "object",
+            "permission": {
+                "create": false,
+                "delete": false,
+                "read": false,
+                "update": false
+            },
+            "properties": {
+                "_id": {
+                    "description": "ID，系统自动生成"
+                },
+                "create_date": {
+                    "bsonType": "timestamp",
+                    "defaultValue": {
+                        "$env": "now"
+                    },
+                    "description": "上券时间"
+                },
+                "desc": {
+                    "bsonType": "string",
+                    "description": "券的描述"
+                },
+                "is_del": {
+                    "bsonType": "bool",
+                    "description": "是否删除"
+                },
+                "need_count": {
+                    "bsonType": "int",
+                    "description": "需要邀请的人数"
+                },
+                "price": {
+                    "bsonType": "int",
+                    "description": "券的价格"
+                },
+                "type": {
+                    "bsonType": "int",
+                    "description": "券的类型  1:无门槛券 2:满减券"
+                },
+                "end_date": {
+                    "bsonType": "string",
+                    "description": "有效期结束日期"
+                },
+                "limit_num": {
+                    "bsonType": "int",
+                    "description": "限制使用金额，如99以上可用"
+                }
+            },
+            "required": []
+        }
+    },
+    "oyyl-user": {
+        "data": [
+            {
+                "_id": {
+                    "$oid": "602776eff6094a000197bef1"
+                },
+                "nickname": "_D调定义之崽崽",
+                "gender": 2,
+                "avatar": "https://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJa4VTbQyJtvdlpq0wAxGicSZ3IPcY81heGLbwY5bwE7eBMP2KUZuWwaqrqhdGqtLJT3xfcveqHSJg/132",
+                "wx_openid": "o1AjB4qKPFN4ROeGh2ooGYrsjFXk"
+            }
+        ]
+    },
+    "oyyl-user-coupons": {
+        "data": [
+            {
+                "_id": {
+                    "$oid": "60277ef080533800016504b0"
+                },
+                "coupon_id": "3b020ca3600d495400aa905b23665b42",
+                "user_id": {
+                    "$oid": "602776eff6094a000197bef1"
+                },
+                "state": 0,
+                "need_count": 1,
+                "helps": []
+            }
+        ],
+        "index": [
+            {
+                "IndexName": "user-coupons",
+                "MgoKeySchema": {
+                    "MgoIndexKeys": [
+                        {
+                            "Name": "user_id",
+                            "Direction": "1"
+                        },
+                        {
+                            "Name": "coupon_id",
+                            "Direction": "1"
+                        }
+                    ],
+                    "MgoIsUnique": true
+                }
+            }
+        ],
+        "schema": {
+            "bsonType": "object",
+            "permission": {
+                "create": false,
+                "delete": false,
+                "read": false,
+                "update": false
+            },
+            "properties": {
+                "_id": {
+                    "description": "ID，系统自动生成"
+                },
+                "coupon_id": {
+                    "bsonType": "string",
+                    "description": "优惠券id，参考oyyl-coupons表",
+                    "foreignKey": "oyyl-coupons._id"
+                },
+                "helps": {
+                    "bsonType": "array",
+                    "description": "助力者对象的几合"
+                },
+                "need_count": {
+                    "bsonType": "int",
+                    "description": "该优惠券需要助力的人数,参考oyyl-coupons表",
+                    "foreignKey": "oyyl-coupons.need_count"
+                },
+                "state": {
+                    "bsonType": "int",
+                    "description": "该用户该优惠券的状态： 0 未领取  1 已领取未使用 2 已使用"
+                },
+                "user_id": {
+                    "bsonType": "string",
+                    "description": "邀请者id，参考oyyl-user表",
+                    "forceDefaultValue": {
+                        "$env": "uid"
+                    },
+                    "foreignKey": "oyyl-user._id"
+                }
+            },
+            "required": []
+        }
+    }
+}
